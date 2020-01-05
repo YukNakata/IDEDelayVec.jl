@@ -22,10 +22,12 @@ add https://github.com/YukNakata/IDEDelayVec.jl
 
 ## Distributed DDE (scalar)
 
+
+```math
 $$
 y'(t)=-r \int_{t-1}^t \sin(y(s))ds
 $$
-
+```
 
 
 ```bash
@@ -55,11 +57,13 @@ plot(sol, linewidth=2, xlabel="t", ylabel="y", title="IDE Delay Runge-Kutta")
 
 ## Distributed DDE system
 
+
+```math
 $$
 y_1'(t)=-r_{11} \int_{t-1}^t \sin(y_1(s))ds-r_{12} \int_{t-1}^t \sin(y_2(s))ds\\
 y_2'(t)=-r_{11} \int_{t-1}^t \sin(y_1(s))ds-r_{12} \int_{t-1}^t \sin(y_2(s))ds\\
 $$
-
+```
 
 
 ```bash
