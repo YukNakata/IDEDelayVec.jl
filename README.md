@@ -4,26 +4,30 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://YukNakata.github.io/IDEDelay.jl/dev)
 [![Build Status](https://travis-ci.com/YukNakata/IDEDelay.jl.svg?branch=master)](https://travis-ci.com/YukNakata/IDEDelay.jl)
 
-"IDEDelay" is a package to numerically compute solutions of Delay Differential Equations, in particular, including "Distributed Delay".
- 
+**IDEDelay** is a package to numerically compute solutions of Delay Differential Equations, in particular, including *Distributed Delay*.
+
 # Requirement
- 
-* Julia (VERSION ≥ v"1.0")
- 
+
+* The package is created using Julia 1.3
+* Julia (VERSION ≥ v"1.0" probably)
+
 # Installation
- 
-Install IDEDelayVec 
- 
- Entering Pkg mode ()
+
+Entering Pkg mode ()
 ```bash
 add https://github.com/YukNakata/IDEDelayVec.jl
 ```
- 
+
 # Example
 
-## scalar Distributed DDE
+## Distributed DDE (scalar)
 
-### 1 
+$$
+y'(t)=-r \int_{t-1}^t \sin(y(s))ds
+$$
+
+
+
 ```bash
 using IDEDelayVec
 using Plots
@@ -33,78 +37,30 @@ idefun(t,y,int) = -2.5*int;
 K(t,s,y)        = sin(y); 
 delays(t)       = t-1;
 history(t)      = 1.5;
-stepsize		= 1e-3;
+stepsize              = 1e-3;
 
 sol = ide_delay_rk(idefun,K,delays,history,tspan,stepsize);
 
 # Output vector of times t
+print(sol[1])
 # Output vector of solutions y
-#print(sol[1])
-#print(sol[2])
+print(sol[2])
 
-# create a line plot
-plot(sol, linewidth=2, xlabel="t", ylabel="y", title="IDE Delay Runge-Kutta")
+# Output 
 sol
-```
-
-### 2
-
-```bash
-using IDEDelayVec
-using Plots
-
-tspan = [0 25];
-idefun(t,y,int) = -15*int;
-K(t,s,y)        = sin(y); 
-delays(t)       = t-1;
-history(t)      = 1.5;
-stepsize		= 1e-3;
-
-sol = ide_delay_rk(idefun,K,delays,history,tspan,stepsize);
-
-# Output vector of times t
-# Output vector of solutions y
-#print(sol[1])
-#print(sol[2])
-
 # create a line plot
 plot(sol, linewidth=2, xlabel="t", ylabel="y", title="IDE Delay Runge-Kutta")
+
 ```
 
 ## Distributed DDE system
 
-### 1 
+$$
+y_1'(t)=-r_{11} \int_{t-1}^t \sin(y_1(s))ds-r_{12} \int_{t-1}^t \sin(y_2(s))ds\\
+y_2'(t)=-r_{11} \int_{t-1}^t \sin(y_1(s))ds-r_{12} \int_{t-1}^t \sin(y_2(s))ds\\
+$$
 
-```bash
-using IDEDelayVec
-using Plots
 
-tspan = [0 25];
-idefun(t,y,int) = [ int[1];
-                    int[2];
-                    int[3] ]
-K(t,s,y)        = [ -2.5*sin(y[1])-sin(y[2]);
-                    -5.5*sin(y[2])-sin(y[1]);
-                    -15*sin(y[3]) ];
-delays(t)       = t-1;
-history(t)      = [ 1.5;
-                    -1.0;
-                    1.5 ];
-stepsize		= 1e-3;
-
-sol = ide_delay_rk(idefun,K,delays,history,tspan,stepsize);
-
-# Output vector of times t
-# Output vector of solutions y
-#print(sol[1])
-#print(sol[2])
-
-# create a line plot
-
-plot(sol, linewidth=2, xlabel="t", ylabel="y", title="IDE Delay Runge-Kutta")
-```
-
-### 2
 
 ```bash
 using IDEDelayVec
@@ -129,19 +85,18 @@ sol = ide_delay_rk(idefun,K,delays,history,tspan,stepsize);
 
 # create a line plot
 plot(sol, linewidth=2, xlabel="t", ylabel="y", title="IDE Delay Runge-Kutta")
-``` 
+```
 # Note
 
 * Extension to a system of RE and DDE is planned.
 
- 
+
 # Author
- 
+
 * Alexander Lobaskin (Saint Petersburg State University)
 * Alexey Eremin (Saint Petersburg State University)
 * Yukihiko Nakata (Shimane University)
- 
+
 # License
- 
+
 "IDEDelay" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
- 
